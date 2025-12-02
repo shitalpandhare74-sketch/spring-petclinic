@@ -1,42 +1,44 @@
 pipeline {
     agent any
 
-    environment{
+    environment {
         APP_NAME = "spring_petclinic"
         BUILD_INFO = "Job_Name: ${env.APP_NAME}\nBuild_Number: ${env.BUILD_NUMBER}"
     }
 
-    parameters{
+    parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'branches to build')
     }
 
-    options{
+    options {
         timeout(time: 10, unit: 'MINUTES')
         timestamps()
     }
 
-    tools{
+    tools {
         jdk "Java"
         maven "Maven"
     }
 
-    stages{
-        stage('Git-Clone'){
-            steps{
-                git branch: 'main', url: 'https://github.com/your-username/spring-pet-clinic.git'
+    stages {
+        stage('Git-Clone') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/shitalpandhare74-sketch/spring-petclinic.git',
+                    credentialsId: 'git-token'
             }
         }
 
-        stage('Build-package'){
-            steps{
+        stage('Build-package') {
+            steps {
                 bat 'mvn package'
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
 
-    post{
-        success{
+    post {
+        success {
             mail to: 'shitalpandhare74@gmail.com',
             subject: "SUCCESS: ${APP_NAME}",
             body: """Hello developers,
@@ -48,7 +50,7 @@ Regards,
 DevOps Team"""
         }
 
-        failure{
+        failure {
             mail to: 'shitalpandhare74@gmail.com',
             subject: "FAILED: ${APP_NAME}",
             body: """Hello developers,
