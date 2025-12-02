@@ -16,8 +16,8 @@ pipeline {
     }
 
     tools{
-        jdk "java-home-25"
-        maven "maven-home"
+        jdk "Java"
+        maven "Maven"
     }
 
     stages{
@@ -37,7 +37,7 @@ pipeline {
 
     post{
         success{
-            mail to: 'your-email@gmail.com',
+            mail to: 'shitalpandhare74@gmail.com',
             subject: "SUCCESS: ${APP_NAME}",
             body: """Hello developers,
 The Jenkins build has Succeeded
@@ -49,7 +49,7 @@ DevOps Team"""
         }
 
         failure{
-            mail to: 'your-email@gmail.com',
+            mail to: 'shitalpandhare74@gmail.com',
             subject: "FAILED: ${APP_NAME}",
             body: """Hello developers,
 The Jenkins build has Failed
